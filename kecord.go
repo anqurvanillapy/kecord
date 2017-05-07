@@ -5,6 +5,10 @@ import (
     "fmt"
 )
 
+const (
+    BtrfsPath string = "/var/kecord"
+)
+
 func usage() {
     fmt.Println(
 `Usage: kecord COMMANDS files...
@@ -24,7 +28,11 @@ Commands:
 
 /* TODO */
 func createImage() {}
-func pullImage() {}
+
+func pullImage() {
+    // fmt.Println(BtrfsPath)
+}
+
 func remove() {}
 func listImages() {}
 func listContainers() {}
@@ -48,7 +56,7 @@ func main() {
     }
 
     cmd := subcmds[os.Args[1]]
-    if (cmd != nil) {
+    if cmd != nil {
         cmd()
     } else {
         fmt.Printf("Unrecognized command: %s\n\n", os.Args[1])
