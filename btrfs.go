@@ -8,18 +8,27 @@
 package main
 
 import (
-    "fmt"
+    "bytes"
+    "log"
     "os/exec"
 )
 
-type btrfsSubVol struct{}
-
-/* TODO */
-func (sv btrfsSubVol) list()     {}
-func (sv btrfsSubVol) create()   {}
-func (sv btrfsSubVol) delete()   {}
-func (sv btrfsSubVol) snapshot() {}
-
 const (
-    Cmd string = "btrfs subvolume"
+    Cmd string = "btrfs"
 )
+
+type btrfsSubvol struct{}
+
+func (sv btrfsSubvol) list(path string) string {
+    var out bytes.Buffer
+    cmd := exec.Command(Cmd, "subvolume", "list", path);
+    cmd.Stdout = &out
+    err := cmd.Run()
+
+    if err != nil { log.Fatal(err) }
+    return out.String()
+}
+
+func (sv btrfsSubvol) create()   {}
+func (sv btrfsSubvol) delete()   {}
+func (sv btrfsSubvol) snapshot() {}

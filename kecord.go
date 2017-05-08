@@ -9,6 +9,8 @@ const (
     BtrfsPath string = "/var/kecord"
 )
 
+var subvol btrfsSubvol
+
 func usage() {
     fmt.Println(
 `Usage: kecord COMMANDS files...
@@ -27,7 +29,9 @@ Commands:
 }
 
 /* TODO */
-func createImage() {}
+func createImage() {
+    fmt.Println(subvol.list(BtrfsPath))
+}
 
 func pullImage() {
     // fmt.Println(BtrfsPath)
@@ -53,6 +57,11 @@ func main() {
         "exec":     execute,
         "logs":     catLog,
         "commit":   commit,
+    }
+
+    if len(os.Args) < 2 {
+        usage()
+        os.Exit(1)
     }
 
     cmd := subcmds[os.Args[1]]
